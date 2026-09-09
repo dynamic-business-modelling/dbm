@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request the Foundation Session - DBM</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FAFAFA;
+      color: #1A1A1A;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: #FFFFFF;
+      padding: 50px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 600px;
+      border: 1px solid #E2E8F0;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0A2540;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748B;
+      font-size: 16px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .form-group { margin-bottom: 24px; }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      color: #1E293B;
+    }
+    label .optional { 
+      font-weight: 400; 
+      color: #94A3B8; 
+      font-size: 13px; 
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      color: #1E293B;
+      transition: all 0.2s;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0A2540;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+    }
+    input.error, textarea.error { 
+      border-color: #EF4444; 
+    }
+
+    textarea { 
+      resize: vertical; 
+      min-height: 120px; 
+    }
+
+    .error-message {
+      color: #EF4444;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+    .error-message.show { display: block; }
+
+    .submit-button {
+      width: 100%;
+      padding: 18px;
+      background: #0A2540;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    .submit-button:hover:not(:disabled) {
+      background: #0d2f4f;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(10, 37, 64, 0.2);
+    }
+    .submit-button:disabled { 
+      background: #94A3B8; 
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #msg {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      text-align: center;
+      display: none;
+      line-height: 1.6;
+    }
+    #msg.error { 
+      background: #FEE2E2; 
+      color: #991B1B; 
+      border: 1px solid #FECACA;
+      display: block; 
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #0A2540;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .back-link:hover { 
+      text-decoration: underline;
+      color: #0d2f4f;
+    }
+
+    @media (max-width: 768px) {
+      .form-container { 
+        padding: 40px 24px; 
+      }
+      h2 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Request the Foundation Session</h2>
+    <p class="subtitle">Bring a decision you're considering. Let's examine what it changes.</p>
+    
+    <form id="leadForm">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input 
+          id="name" 
+          name="name" 
+          type="text" 
+          required 
+          minlength="2" 
+          placeholder="Enter your full name" 
+        />
+        <div class="error-message" id="name-error">Please enter a valid name (at least 2 characters)</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input 
+          id="email" 
+          name="email" 
+          type="email" 
+          required 
+          placeholder="example@email.com" 
+        />
+        <div class="error-message" id="email-error">Please enter a valid email address</div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number <span class="optional">(Optional)</span></label>
+        <input 
+          id="phone" 
+          name="phone" 
+          type="tel" 
+          placeholder="05xxxxxxxx" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="restaurant">Business / Organization Name *</label>
+        <input 
+          id="restaurant" 
+          name="restaurant" 
+          type="text" 
+          required 
+          minlength="2" 
+          placeholder="Enter your business name" 
+        />
+        <div class="error-message" id="restaurant-error">Please enter your business name</div>
+      </div>
+
+      <div class="form-group">
+        <label for="decision">The Decision You're Considering <span class="optional">(Optional)</span></label>
+        <textarea 
+          id="decision" 
+          name="decision" 
+          placeholder="Briefly describe the decision or change you are considering (e.g., price change, expansion, capacity increase, operational change, etc.)"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-button" id="submitBtn">
+        Request the Foundation Session
+      </button>
+      
+      <div id="msg"></div>
+    </form>
+
+    <a href="index.html" class="back-link">← Back to DBM Overview</a>
+  </div>
+
+  <script>
+    // --- Supabase Configuration ---
+    const SUPABASE_URL  = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+
+    const form = document.getElementById('leadForm');
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('msg');
+
+    // Validation function
+    function validateField(field) {
+      const value = field.value.trim();
+      const errorElement = document.getElementById(`${field.id}-error`);
+      
+      if (field.required && !value) {
+        field.classList.add('error');
+        if (errorElement) errorElement.classList.add('show');
+        return false;
+      }
+      
+      if (field.type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          field.classList.add('error');
+          if (errorElement) errorElement.classList.add('show');
+          return false;
+        }
+      }
+      
+      if (field.minLength && value.length < field.minLength) {
+        field.classList.add('error');
+        if (errorElement) errorElement.classList.add('show');
+        return false;
+      }
+      
+      field.classList.remove('error');
+      if (errorElement) errorElement.classList.remove('show');
+      return true;
+    }
+
+    // Real-time validation
+    document.querySelectorAll('input, textarea').forEach(input => {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if (input.classList.contains('error')) {
+          validateField(input);
+        }
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validate all required fields
+      let isValid = true;
+      document.querySelectorAll('input[required], textarea[required]').forEach(input => {
+        if (!validateField(input)) {
+          isValid = false;
+        }
+      });
+      
+      if (!isValid) {
+        const firstError = document.querySelector('.error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      // Get form values
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const restaurant = document.getElementById('restaurant').value.trim();
+      const decision = document.getElementById('decision').value.trim();
+
+      // Disable button and show loading
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      msg.className = '';
+      msg.style.display = 'none';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ 
+            name, 
+            email, 
+            phone: phone || null, 
+            restaurant,
+            decision: decision || null 
+          })
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || 'Submission failed');
+        }
+
+        // ✅ التعديل هنا: التوجيه إلى صفحة الشكر بدلاً من إظهار رسالة في نفس الصفحة
+        window.location.href = 'thank-you.html';
+        
+      } catch (err) {
+        // Error message (تظهر فقط في حال فشل الإرسال)
+        msg.textContent = '❌ An error occurred: ' + err.message;
+        msg.className = 'error';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Request the Foundation Session';
+      }
+    });
+  </script>
+</body>
+</html>

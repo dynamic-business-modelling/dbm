@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Received - DBM</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FAFAFA;
+      color: #1A1A1A;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .success-container {
+      background: #FFFFFF;
+      padding: 60px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid #E2E8F0;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: #D1FAE5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      font-size: 40px;
+    }
+
+    h1 {
+      color: #0A2540;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .message {
+      color: #475569;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .timeline {
+      color: #0A2540;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      padding: 16px;
+      background: #F8FAFC;
+      border-radius: 8px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #0A2540;
+      color: #FFFFFF;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .cta-button:hover {
+      background: #0d2f4f;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(10, 37, 64, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .success-container { padding: 40px 24px; }
+      h1 { font-size: 26px; }
+      .message { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="success-container">
+    <div class="success-icon">✓</div>
+    <h1>Request Received</h1>
+    <p class="message">Thank you for your interest in Dynamic Business Modelling. We have received your request.</p>
+    <div class="timeline">We will contact you within 48 hours.</div>
+    <a href="index.html" class="cta-button">Return to DBM Overview</a>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Business Modelling (DBM)</title>
+  <meta name="description" content="Examine the connected consequences of specified changes and decisions within your business context before commitment." />
+  
+  <!-- خط Inter الاحترافي -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- إعدادات التصميم الأساسية (Minimalist Executive) --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FAFAFA;
+      color: #1A1A1A;
+      line-height: 1.8;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    /* --- التايبوجرافي --- */
+    h1, h2, h3 {
+      color: #0A2540;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { 
+      font-size: 42px; 
+      font-weight: 800; 
+      margin-bottom: 16px; 
+    }
+    
+    h2 { 
+      font-size: 28px; 
+      font-weight: 700; 
+      margin-top: 70px; 
+      margin-bottom: 24px; 
+    }
+    
+    h3 { 
+      font-size: 20px; 
+      font-weight: 600; 
+      margin-top: 30px; 
+      margin-bottom: 12px; 
+      color: #334155;
+    }
+
+    p { 
+      margin-bottom: 20px; 
+      color: #334155; 
+    }
+    
+    .subtitle {
+      font-size: 22px;
+      color: #475569;
+      font-weight: 500;
+      margin-bottom: 60px;
+      line-height: 1.5;
+    }
+
+    ul { 
+      margin-bottom: 24px; 
+      padding-left: 24px; 
+      color: #334155; 
+    }
+    li { margin-bottom: 12px; }
+
+    /* --- صندوق التمييز (للعبارات القوية) --- */
+    .highlight-box {
+      background: #F1F5F9;
+      border-left: 4px solid #0A2540;
+      padding: 24px 30px;
+      margin: 40px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p {
+      margin-bottom: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #0A2540;
+    }
+
+    /* --- شارة الثقة --- */
+    .trust-badge {
+      text-align: center;
+      font-size: 14px;
+      color: #64748B;
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    /* --- زر الإجراء (CTA) --- */
+    .cta-container {
+      text-align: center;
+      margin-top: 80px;
+      margin-bottom: 60px;
+      padding: 40px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      border: 1px solid #E2E8F0;
+    }
+
+    .cta-container p {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0A2540;
+      margin-bottom: 24px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #0A2540;
+      color: #FFFFFF;
+      padding: 18px 48px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      background: #0d2f4f;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(10, 37, 64, 0.2);
+    }
+
+    /* --- التذييل التعريفي --- */
+    .footer-def {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid #E2E8F0;
+      font-size: 15px;
+      color: #64748B;
+    }
+    .footer-def h3 {
+      font-size: 16px;
+      color: #0A2540;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    /* --- التجاوب مع الجوال --- */
+    @media (max-width: 768px) {
+      .container { padding: 50px 20px; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 24px; margin-top: 50px; }
+      .subtitle { font-size: 19px; }
+      .cta-container { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- الواجهة الرئيسية -->
+    <header>
+      <h1>Dynamic Business Modelling</h1>
+      <p class="subtitle">A decision changes something. What else changes in your business?</p>
+    </header>
+
+    <!-- المقدمة -->
+    <section>
+      <p>A business does not respond to a decision in only one place.</p>
+      <p>Change the price, and the business may need to absorb a different level of demand.<br>
+      Change the volume, and capacity, workforce, resources, costs, and cash requirements may change with it.<br>
+      Change the way work is done, and other parts of the operation may have to respond.</p>
+      <p>The intended change may be clear. What is often less clear is how the business responds around it.</p>
+    </section>
+
+    <!-- القسم 1 -->
+    <section>
+      <h2>See what else changes before you commit</h2>
+      <p>Many business decisions can be examined one number at a time. The harder question is what happens when those numbers are connected.</p>
+      <p>What happens to the rest of the business when one condition changes?</p>
+      <ul>
+        <li>Which resources become constrained?</li>
+        <li>What additional capacity is required?</li>
+        <li>What happens to workforce requirements?</li>
+        <li>How do costs and cash requirements respond?</li>
+        <li>Which operational conditions have to change with them?</li>
+        <li>And when there is more than one meaningful path, how does the business respond differently to each?</li>
+      </ul>
+      
+      <div class="highlight-box">
+        <p>The difficulty is not always calculation. It is connection.</p>
+      </div>
+
+      <p>A decision may look straightforward when viewed through the thing it was intended to change. It can look different when the response of the connected business is examined.</p>
+    </section>
+
+    <!-- القسم 2 -->
+    <section>
+      <h2>What DBM does</h2>
+      <p>Dynamic Business Modelling (DBM) examines how a represented business responds when specified conditions are changed.</p>
+      <p>You specify what you are considering. DBM examines what follows within the connected conditions of your business.</p>
+      <p>That examination can include:</p>
+      <ul>
+        <li>Capacity and resource requirements</li>
+        <li>Workforce requirements</li>
+        <li>Operating conditions</li>
+        <li>Costs and cash requirements</li>
+        <li>Processes and how work gets done</li>
+        <li>Constraints and dependencies</li>
+        <li>Conditions affected elsewhere in the business</li>
+      </ul>
+      <p>When meaningful alternatives are being considered, those specified alternatives can also be examined and compared within the same business context.</p>
+      <p>The purpose is not to isolate the number being changed. It is to make the connected response of the business available for examination before commitment.</p>
+    </section>
+
+    <!-- القسم 3 -->
+    <section>
+      <h2>Growth, expansion, and capacity</h2>
+      <p>Growth is one of the clearest situations in which the response of the business matters.</p>
+      <p>Increase volume. Open another location. Add capacity. Commit capital.</p>
+      <p>At the target level, the decision may appear straightforward. But the business has to support what you choose to pursue.</p>
+      <ul>
+        <li>Can the existing operation support the change?</li>
+        <li>What additional capacity is required?</li>
+        <li>What happens to workforce requirements?</li>
+        <li>Which resources become constrained?</li>
+        <li>What other parts of the operation have to change?</li>
+        <li>What happens to costs and cash requirements as the business moves toward the new condition?</li>
+        <li>What does pursuing this path require from the business?</li>
+      </ul>
+      <p>These questions can be examined together rather than as separate calculations.</p>
+      <p>A growth decision that looks attractive through its intended result may look different when the response of the connected business is examined.</p>
+      <p>Not because growth is difficult to imagine. Because the business has to support the growth you choose.</p>
+      
+      <div class="highlight-box">
+        <p>The cost of being thorough should match the cost of being wrong.</p>
+      </div>
+    </section>
+
+    <!-- القسم 4 -->
+    <section>
+      <h2>Other consequential decisions</h2>
+      <p>Growth and expansion are not the only situations where this matters.</p>
+      
+      <h3>Pricing and product mix</h3>
+      <p>When pricing or product-mix changes interact with volume, capacity, workforce, resources, costs, or cash, the response of the wider business matters as well.</p>
+      
+      <h3>Changes to how the business operates</h3>
+      <p>When you change processes, workflows, routing, workforce structure, or how resources are used, the change can affect more than the activity being changed.</p>
+      
+      <h3>Decisions that build on one another</h3>
+      <p>Today's decision can change the conditions against which tomorrow's decision will be examined. Later decisions can therefore be examined in the context created by earlier ones.</p>
+      
+      <h3>Different conditions</h3>
+      <p>When there are conditions worth testing, the same change can be examined under those specified conditions to see how the business response differs.</p>
+      <p>The common question remains: <strong>What else changes?</strong></p>
+    </section>
+
+    <!-- القسم 5 -->
+    <section>
+      <h2>Compare the paths you are actually considering</h2>
+      <p>Sometimes the question is not whether to change something. It is which of several meaningful paths to pursue.</p>
+      <ul>
+        <li>One pricing approach against another.</li>
+        <li>One capacity decision against another.</li>
+        <li>One operational change against another.</li>
+        <li>Or several changes considered together.</li>
+      </ul>
+      <p>DBM can examine and compare those specified alternatives within the same business context.</p>
+      <p>This is not an automatic search for the "best" combination. It is not a recommendation engine.</p>
+      <p>You determine which alternatives matter. DBM examines what each specified path means for the business. Your organization evaluates the differences and decides which path, if any, it wants to pursue.</p>
+    </section>
+
+    <!-- القسم 6 -->
+    <section>
+      <h2>DBM examines. You decide.</h2>
+      <p>DBM does not determine what your organization should want. It does not determine your strategic objective. It does not independently select the preferred strategy or decision. It does not predict external events or promise a particular outcome.</p>
+      <p>Instead, the roles remain deliberately separate.</p>
+      <p>You specify the change, conditions, objectives, or alternatives you want examined. DBM examines the resulting response within the represented business.</p>
+      <p>Your organization evaluates what those consequences mean against its objectives, circumstances, and priorities.</p>
+      <p>Where strategic alternatives are being considered, DBM can contribute to strategic evaluation by making the consequences of specified alternatives available for comparison. It can inform strategic choice without becoming a strategy generator.</p>
+      <p>The organization retains the judgment, responsibility, and authority to choose.</p>
+    </section>
+
+    <!-- القسم 7 -->
+    <section>
+      <h2>Grounded in your business</h2>
+      <p>This is not a generic template applied to your organization. The examination is grounded in the business you are actually operating:</p>
+      <ul>
+        <li>Your information</li>
+        <li>Your operating conditions</li>
+        <li>Your capacity</li>
+        <li>Your resources</li>
+        <li>Your constraints</li>
+        <li>And the relationships between them</li>
+      </ul>
+      <p>Because the same change can produce different consequences in different businesses.</p>
+      <p>The relevant question is therefore not simply: <em>"What happens in this scenario?"</em></p>
+      <p>It is: <strong>"How does this business respond when something changes?"</strong></p>
+    </section>
+
+    <!-- القسم 8 -->
+    <section>
+      <h2>Decisions do not always stand alone</h2>
+      <p>A business does not return to the same conditions after every decision. When an organization accepts a decision, the resulting condition can become part of the context against which subsequent decisions are examined.</p>
+      <p>So instead of treating every decision as an isolated snapshot:</p>
+      <p style="text-align: center; font-weight: 600; color: #0A2540; margin: 30px 0;">
+        Decision A &rarr; business response &rarr; Decision B &rarr; business response &rarr; Decision C
+      </p>
+      <p>Later decisions can be examined in the context created by earlier ones. This is particularly relevant to phased growth, successive operational changes, and cumulative decisions.</p>
+      <p>Where useful, what was examined can later be compared with what actually occurred, helping distinguish what corresponded with reality from what did not.</p>
+    </section>
+
+    <!-- القسم 9 -->
+    <section>
+      <h2>Is DBM right for your decision?</h2>
+      <p>DBM is most valuable when the business response to a change is consequential. Especially when the change is:</p>
+      <ul>
+        <li>Financially material;</li>
+        <li>Difficult or expensive to reverse;</li>
+        <li>Dependent on several parts of the business;</li>
+        <li>Constrained by capacity or resources;</li>
+        <li>Operationally significant;</li>
+        <li>Likely to affect subsequent decisions;</li>
+        <li>Or important enough that discovering a consequence after commitment would be costly.</li>
+      </ul>
+      <p>Not every decision needs this level of examination. But when the cost of being wrong is significant, the cost of being thorough should be considered as well.</p>
+    </section>
+
+    <!-- القسم 10 -->
+    <section>
+      <h2>Bring a decision you're considering</h2>
+      <p>You do not need to begin with a generic consultation. Begin with the change or decision you are considering.</p>
+      <p>Tell us what you are considering, the business context in which it would take place, and the alternatives or conditions that matter to you.</p>
+      <p>We can then examine how your business responds, what the change requires from the business, and how the meaningful alternatives compare.</p>
+    </section>
+
+    <!-- زر الإجراء -->
+    <div class="cta-container">
+      <p>Bring a decision you're considering.<br>Let's examine what it changes.</p>
+      <a href="form.html" class="cta-button">Request the Foundation Session</a>
+    </div>
+
+    <!-- التذييل التعريفي -->
+    <div class="footer-def">
+      <h3>Dynamic Business Modelling</h3>
+      <p>Dynamic Business Modelling (DBM) is a decision-analysis service for consequential organizational decisions. It helps organizations examine the connected consequences of specified changes and decisions within their business context and compare meaningful alternatives before commitment — while leaving strategic and operational choice with the organization.</p>
+    </div>
+
+    <!-- شارة الثقة -->
+    <div class="trust-badge">
+      Certified Business Analysis & Planning Practitioner | Registered with Monsha'at & Maroof
+    </div>
+
+  </div>
+
+</body>
+</html>

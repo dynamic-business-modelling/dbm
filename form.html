@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>طلب فحص مصيري - DBM</title>
+  
+  <!-- خط Cairo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- مكتبة Supabase JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,6 +73,7 @@
       background-color: #FFFFFF;
     }
     textarea { resize: vertical; min-height: 120px; }
+    
     .submit-btn {
       width: 100%;
       background: #0A2540;
@@ -86,6 +92,11 @@
       background: #0d2f4f;
       transform: translateY(-2px);
     }
+    .submit-btn:disabled {
+      background: #94A3B8;
+      cursor: not-allowed;
+      transform: none;
+    }
     .back-link {
       display: block;
       text-align: center;
@@ -95,6 +106,29 @@
       font-size: 14px;
     }
     .back-link:hover { color: #0A2540; }
+    
+    .error-message {
+      color: #DC2626;
+      background: #FEF2F2;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      text-align: center;
+    }
+    
+    .success-message {
+      color: #059669;
+      background: #D1FAE5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       .form-container { padding: 30px 24px; }
     }
@@ -106,34 +140,106 @@
     <h1>طلب جلسة فحص مبدئية</h1>
     <p class="form-subtitle">املأ البيانات أدناه لنبدأ في فحص استجابة منشأتك للقرار الذي تفكر فيه.</p>
     
-    <!-- ملاحظة تقنية: action="thank-you.html" يقوم بتوجيه العميل لصفحة الشكر عند الضغط على إرسال -->
-    <form action="thank-you.html" method="GET">
-      
+    <div id="error-box" class="error-message"></div>
+    <div id="success-box" class="success-message"></div>
+
+    <form id="leads-form">
       <div class="form-group">
-        <label for="name">الاسم الكامل</label>
+        <label for="name">الاسم الكامل *</label>
         <input type="text" id="name" name="name" required placeholder="الاسم الثلاثي">
       </div>
 
       <div class="form-group">
-        <label for="company">اسم المنشأة</label>
+        <label for="company">اسم المنشأة *</label>
         <input type="text" id="company" name="company" required placeholder="اسم المنشأة أو المطعم">
       </div>
 
       <div class="form-group">
-        <label for="phone">رقم الجوال</label>
+        <label for="email">البريد الإلكتروني *</label>
+        <input type="email" id="email" name="email" required placeholder="example@domain.com">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">رقم الجوال *</label>
         <input type="tel" id="phone" name="phone" required placeholder="05xxxxxxxx">
       </div>
 
       <div class="form-group">
-        <label for="decision">ما هو القرار أو التغيير المصيري الذي تفكر فيه حالياً؟</label>
+        <label for="decision">ما هو القرار أو التغيير المصيري الذي تفكر فيه حالياً؟ *</label>
         <textarea id="decision" name="decision" required placeholder="مثال: أفكر في فتح فرع جديد، تغيير هيكل التسعير، أو تعديل الجدولة التشغيلية..."></textarea>
       </div>
 
-      <button type="submit" class="submit-btn">إرسال طلب الفحص</button>
+      <button type="submit" id="submit-btn" class="submit-btn">إرسال طلب الفحص</button>
       
       <a href="index.html" class="back-link">← العودة إلى الصفحة الرئيسية</a>
     </form>
   </div>
+
+  <script>
+    // ==========================================
+    // تم إدخال بيانات مشروعك بأمان (مفتاح anon فقط)
+    // ==========================================
+    const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+    
+    // تهيئة عميل Supabase
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // التعامل مع إرسال النموذج
+    document.getElementById('leads-form').addEventListener('submit', async function(e) {
+      e.preventDefault(); // منع إعادة تحميل الصفحة
+      
+      const submitBtn = document.getElementById('submit-btn');
+      const errorBox = document.getElementById('error-box');
+      const successBox = document.getElementById('success-box');
+      
+      // إخفاء الرسائل السابقة
+      errorBox.style.display = 'none';
+      successBox.style.display = 'none';
+      
+      // تعطيل الزر وتغيير النص
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري الإرسال...';
+
+      // جمع البيانات من الحقول (تأكد أن أسماء الحقول تطابق أعمدة جدول leads)
+      const formData = {
+        name: document.getElementById('name').value.trim(),
+        company: document.getElementById('company').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        decision: document.getElementById('decision').value.trim()
+      };
+
+      try {
+        // إرسال البيانات إلى جدول leads في Supabase
+        const { data, error } = await supabase
+          .from('leads')
+          .insert([formData]);
+
+        if (error) {
+          throw error;
+        }
+
+        // عند النجاح، عرض رسالة نجاح والتوجيه
+        successBox.textContent = '✅ تم إرسال طلبك بنجاح! جاري التوجيه...';
+        successBox.style.display = 'block';
+        
+        // الانتظار 2 ثانية ثم التوجيه لصفحة الشكر
+        setTimeout(() => {
+          window.location.href = 'thank-you.html';
+        }, 2000);
+
+      } catch (err) {
+        console.error('خطأ في إرسال البيانات:', err);
+        errorBox.textContent = '❌ عذراً، حدث خطأ أثناء إرسال البيانات. يرجى التأكد من اتصال الإنترنت أو المحاولة لاحقاً.';
+        errorBox.style.display = 'block';
+        
+        // إعادة تفعيل الزر
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'إرسال طلب الفحص';
+      }
+    });
+  </script>
 
 </body>
 </html>

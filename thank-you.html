@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Request Received - DBM</title>
-  
+  <title>تم استلام الطلب - DBM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Cairo', sans-serif;
       background-color: #FAFAFA;
       color: #1A1A1A;
       line-height: 1.6;
@@ -23,7 +21,6 @@
       justify-content: center;
       padding: 20px;
     }
-
     .success-container {
       background: #FFFFFF;
       padding: 60px 40px;
@@ -34,7 +31,6 @@
       border: 1px solid #E2E8F0;
       text-align: center;
     }
-
     .success-icon {
       width: 80px;
       height: 80px;
@@ -45,23 +41,20 @@
       justify-content: center;
       margin: 0 auto 30px;
       font-size: 40px;
+      color: #059669;
     }
-
     h1 {
       color: #0A2540;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
       margin-bottom: 20px;
-      letter-spacing: -0.02em;
     }
-
     .message {
       color: #475569;
       font-size: 18px;
       line-height: 1.6;
       margin-bottom: 16px;
     }
-
     .timeline {
       color: #0A2540;
       font-size: 16px;
@@ -71,7 +64,6 @@
       background: #F8FAFC;
       border-radius: 8px;
     }
-
     .cta-button {
       display: inline-block;
       background: #0A2540;
@@ -86,13 +78,10 @@
     .cta-button:hover {
       background: #0d2f4f;
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(10, 37, 64, 0.2);
     }
-
     @media (max-width: 768px) {
       .success-container { padding: 40px 24px; }
-      h1 { font-size: 26px; }
-      .message { font-size: 16px; }
+      h1 { font-size: 24px; }
     }
   </style>
 </head>
@@ -100,10 +89,12 @@
 
   <div class="success-container">
     <div class="success-icon">✓</div>
-    <h1>Request Received</h1>
-    <p class="message">Thank you for your interest in Dynamic Business Modelling. We have received your request.</p>
-    <div class="timeline">We will contact you within 48 hours.</div>
-    <a href="index.html" class="cta-button">Return to DBM Overview</a>
+    <h1>تم استلام طلبك بنجاح</h1>
+    <p class="message">شكراً لثقتك في منهجية النمذجة الديناميكية للأعمال (DBM). لقد قمنا بتسجيل بياناتك والقرار الذي ترغب في فحصه.</p>
+    <div class="timeline">سنقوم بمراجعة طلبك والتواصل معك خلال 48 ساعة لترتيب جلسة الفحص المبدئية.</div>
+    
+    <!-- زر العودة للصفحة الرئيسية -->
+    <a href="index.html" class="cta-button">العودة إلى الصفحة الرئيسية</a>
   </div>
 
 </body>

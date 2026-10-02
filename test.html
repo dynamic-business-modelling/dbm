@@ -4,72 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body style="font-family: Arial; padding: 20px; text-align: center;">
 
     <h1>اختبار بسيط</h1>
     
-    <div id="status" style="background: yellow; padding: 10px; margin: 20px 0; border-radius: 5px;">
-        جاري التحميل...
-    </div>
+    <div id="log" style="background: #f0f0f0; padding: 15px; margin: 20px 0; text-align: right; font-size: 12px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></div>
 
     <input type="text" id="msg" placeholder="اكتب كلمة هنا" style="padding: 10px; width: 300px; margin: 10px;">
     <br>
     <button id="sendBtn" style="padding: 10px 20px; background: blue; color: white; border: none; border-radius: 5px; cursor: pointer;">إرسال</button>
-    
-    <div id="result" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;"></div>
 
     <script>
-        // اختبار أن الصفحة تحمّلت
-        document.getElementById('status').innerHTML = '✅ الصفحة تحمّلت';
-        document.getElementById('status').style.background = 'lightgreen';
-
-        const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+        const log = document.getElementById('log');
         
-        let supabase;
-        
-        try {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            document.getElementById('status').innerHTML = '✅ تم الاتصال بـ Supabase';
-        } catch (e) {
-            document.getElementById('status').innerHTML = '❌ خطأ: ' + e.message;
-            document.getElementById('status').style.background = 'red';
+        function addLog(msg, color = 'black') {
+            log.innerHTML += `<div style="color: ${color}; margin: 5px 0;">${msg}</div>`;
         }
 
-        // استخدام addEventListener بدلاً من onclick
-        document.getElementById('sendBtn').addEventListener('click', async function() {
-            const message = document.getElementById('msg').value;
-            const resultDiv = document.getElementById('result');
-            
-            if (!message) {
-                resultDiv.innerHTML = '⚠️ اكتب كلمة أولاً!';
-                resultDiv.style.background = '#fff3cd';
-                return;
-            }
-            
-            resultDiv.innerHTML = '⏳ جاري الإرسال...';
-            resultDiv.style.background = '#cce5ff';
+        addLog('1️⃣ بدأت تحميل الصفحة...');
 
+        // اختبار 1: هل المكتبة موجودة؟
+        if (typeof window.supabase === 'undefined') {
+            addLog('❌ مكتبة Supabase لم تُحمّل!', 'red');
+            addLog('💡 الحل: تحقق من اتصال الإنترنت أو جرب CDN مختلف', 'blue');
+        } else {
+            addLog('✅ مكتبة Supabase محملة', 'green');
+            addLog('2️⃣ جاري إنشاء العميل...', 'blue');
+            
+            const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+            
             try {
-                const { data, error } = await supabase
+                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                addLog('✅ تم إنشاء العميل بنجاح', 'green');
+                addLog('3️⃣ جاري اختبار الاتصال...', 'blue');
+                
+                // اختبار الاتصال الفعلي
+                supabase
                     .from('test_form')
-                    .insert([{ test_message: message }]);
+                    .select('*')
+                    .limit(1)
+                    .then(({ data, error }) => {
+                        if (error) {
+                            addLog(' خطأ في الاتصال: ' + error.message, 'red');
+                            addLog(' التفاصيل: ' + JSON.stringify(error), 'gray');
+                        } else {
+                            addLog('✅ الاتصال يعمل!', 'green');
+                            addLog('📊 البيانات: ' + JSON.stringify(data), 'gray');
+                        }
+                    });
+                
+                // تفعيل الزر
+                document.getElementById('sendBtn').addEventListener('click', async function() {
+                    const message = document.getElementById('msg').value;
+                    
+                    if (!message) {
+                        addLog('️ اكتب كلمة أولاً', 'orange');
+                        return;
+                    }
+                    
+                    addLog('📤 جاري إرسال: ' + message, 'blue');
+                    
+                    const { data, error } = await supabase
+                        .from('test_form')
+                        .insert([{ test_message: message }]);
 
-                if (error) {
-                    console.error('الخطأ:', error);
-                    resultDiv.innerHTML = '❌ فشل: ' + error.message;
-                    resultDiv.style.background = '#f8d7da';
-                } else {
-                    resultDiv.innerHTML = '✅ نجح! تم إرسال: ' + message;
-                    resultDiv.style.background = '#d4edda';
-                }
+                    if (error) {
+                        addLog('❌ فشل الإرسال: ' + error.message, 'red');
+                        addLog(' التفاصيل: ' + JSON.stringify(error), 'gray');
+                    } else {
+                        addLog('✅ نجح! تم الإرسال', 'green');
+                        addLog('📊 البيانات: ' + JSON.stringify(data), 'gray');
+                    }
+                });
+                
             } catch (e) {
-                resultDiv.innerHTML = '❌ خطأ: ' + e.message;
-                resultDiv.style.background = '#f8d7da';
+                addLog('❌ خطأ في إنشاء العميل: ' + e.message, 'red');
             }
-        });
+        }
     </script>
 </body>
 </html>

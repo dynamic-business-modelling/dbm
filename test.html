@@ -2,54 +2,67 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>اختبار Supabase</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: Arial; padding: 50px; text-align: center; }
-        input { padding: 10px; width: 300px; margin: 10px; }
-        button { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
-        #result { margin-top: 20px; font-weight: bold; }
-    </style>
+    <title>اختبار</title>
 </head>
-<body>
+<body style="font-family: Arial; padding: 50px; text-align: center;">
 
     <h2>اختبار بسيط</h2>
-    <input type="text" id="msg" placeholder="اكتب كلمة هنا">
-    <br>
-    <button onclick="sendData()">إرسال</button>
+    <input type="text" id="msg" placeholder="اكتب كلمة" style="padding: 10px; width: 300px;">
+    <br><br>
+    <button onclick="sendData()" style="padding: 10px 20px; background: blue; color: white; border: none;">إرسال</button>
     
-    <div id="result"></div>
+    <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        alert('1️⃣ الصفحة تحمّلت');
+        
         const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabase;
+        
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            alert('2️⃣ تم إنشاء عميل Supabase بنجاح');
+        } catch (e) {
+            alert('❌ خطأ في إنشاء العميل: ' + e.message);
+        }
 
         async function sendData() {
+            alert('3️⃣ تم الضغط على الزر');
+            
             const message = document.getElementById('msg').value;
             const resultDiv = document.getElementById('result');
             
             if (!message) {
-                resultDiv.innerHTML = '⚠️ اكتب كلمة أولاً!';
-                resultDiv.style.color = 'orange';
+                alert('⚠️ الحقل فارغ!');
                 return;
             }
             
+            alert('4️⃣ الكلمة المكتوبة: ' + message);
             resultDiv.innerHTML = '⏳ جاري الإرسال...';
-            resultDiv.style.color = 'blue';
+            
+            try {
+                alert('5️ جاري الاتصال بـ Supabase...');
+                
+                const { data, error } = await supabase
+                    .from('test_form')
+                    .insert([{ test_message: message }]);
 
-            const { data, error } = await supabase
-                .from('test_form')
-                .insert([{ test_message: message }]);
-
-            if (error) {
-                console.error('الخطأ:', error);
-                resultDiv.innerHTML = '❌ فشل: ' + error.message;
+                if (error) {
+                    alert('❌ خطأ من Supabase: ' + error.message);
+                    resultDiv.innerHTML = 'فشل: ' + error.message;
+                    resultDiv.style.color = 'red';
+                } else {
+                    alert('✅ نجح! البيانات وصلت');
+                    resultDiv.innerHTML = 'نجح! تم إرسال: ' + message;
+                    resultDiv.style.color = 'green';
+                }
+            } catch (e) {
+                alert('❌ خطأ غير متوقع: ' + e.message);
+                resultDiv.innerHTML = 'خطأ: ' + e.message;
                 resultDiv.style.color = 'red';
-            } else {
-                resultDiv.innerHTML = '✅ نجح! تم إرسال: ' + message;
-                resultDiv.style.color = 'green';
             }
         }
     </script>

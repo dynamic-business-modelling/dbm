@@ -2,21 +2,29 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار</title>
-</head>
-<body style="font-family: Arial; padding: 50px; text-align: center;">
-
-    <h2>اختبار بسيط</h2>
-    <input type="text" id="msg" placeholder="اكتب كلمة" style="padding: 10px; width: 300px;">
-    <br><br>
-    <button onclick="sendData()" style="padding: 10px 20px; background: blue; color: white; border: none;">إرسال</button>
-    
-    <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="font-family: Arial; padding: 20px; text-align: center;">
+
+    <h1>اختبار بسيط</h1>
+    
+    <div id="status" style="background: yellow; padding: 10px; margin: 20px 0; border-radius: 5px;">
+        جاري التحميل...
+    </div>
+
+    <input type="text" id="msg" placeholder="اكتب كلمة هنا" style="padding: 10px; width: 300px; margin: 10px;">
+    <br>
+    <button id="sendBtn" style="padding: 10px 20px; background: blue; color: white; border: none; border-radius: 5px; cursor: pointer;">إرسال</button>
+    
+    <div id="result" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;"></div>
+
     <script>
-        alert('1️⃣ الصفحة تحمّلت');
-        
+        // اختبار أن الصفحة تحمّلت
+        document.getElementById('status').innerHTML = '✅ الصفحة تحمّلت';
+        document.getElementById('status').style.background = 'lightgreen';
+
         const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
         
@@ -24,47 +32,44 @@
         
         try {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            alert('2️⃣ تم إنشاء عميل Supabase بنجاح');
+            document.getElementById('status').innerHTML = '✅ تم الاتصال بـ Supabase';
         } catch (e) {
-            alert('❌ خطأ في إنشاء العميل: ' + e.message);
+            document.getElementById('status').innerHTML = '❌ خطأ: ' + e.message;
+            document.getElementById('status').style.background = 'red';
         }
 
-        async function sendData() {
-            alert('3️⃣ تم الضغط على الزر');
-            
+        // استخدام addEventListener بدلاً من onclick
+        document.getElementById('sendBtn').addEventListener('click', async function() {
             const message = document.getElementById('msg').value;
             const resultDiv = document.getElementById('result');
             
             if (!message) {
-                alert('⚠️ الحقل فارغ!');
+                resultDiv.innerHTML = '⚠️ اكتب كلمة أولاً!';
+                resultDiv.style.background = '#fff3cd';
                 return;
             }
             
-            alert('4️⃣ الكلمة المكتوبة: ' + message);
             resultDiv.innerHTML = '⏳ جاري الإرسال...';
-            
+            resultDiv.style.background = '#cce5ff';
+
             try {
-                alert('5️ جاري الاتصال بـ Supabase...');
-                
                 const { data, error } = await supabase
                     .from('test_form')
                     .insert([{ test_message: message }]);
 
                 if (error) {
-                    alert('❌ خطأ من Supabase: ' + error.message);
-                    resultDiv.innerHTML = 'فشل: ' + error.message;
-                    resultDiv.style.color = 'red';
+                    console.error('الخطأ:', error);
+                    resultDiv.innerHTML = '❌ فشل: ' + error.message;
+                    resultDiv.style.background = '#f8d7da';
                 } else {
-                    alert('✅ نجح! البيانات وصلت');
-                    resultDiv.innerHTML = 'نجح! تم إرسال: ' + message;
-                    resultDiv.style.color = 'green';
+                    resultDiv.innerHTML = '✅ نجح! تم إرسال: ' + message;
+                    resultDiv.style.background = '#d4edda';
                 }
             } catch (e) {
-                alert('❌ خطأ غير متوقع: ' + e.message);
-                resultDiv.innerHTML = 'خطأ: ' + e.message;
-                resultDiv.style.color = 'red';
+                resultDiv.innerHTML = '❌ خطأ: ' + e.message;
+                resultDiv.style.background = '#f8d7da';
             }
-        }
+        });
     </script>
 </body>
 </html>

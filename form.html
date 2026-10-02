@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب فحص مصيري - DBM</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            background-color: #FAFAFA;
+            color: #1A1A1A;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .form-container {
+            background: #FFFFFF;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #E2E8F0;
+        }
+        h1 {
+            color: #0A2540;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .form-subtitle {
+            text-align: center;
+            color: #475569;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #0A2540;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #1A1A1A;
+            background-color: #F8FAFC;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0A2540;
+            background-color: #FFFFFF;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+        
+        .submit-btn {
+            width: 100%;
+            background: #0A2540;
+            color: #FFFFFF;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover { background: #0d2f4f; }
+        .submit-btn:disabled { background: #94A3B8; cursor: not-allowed; }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #64748B;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .back-link:hover { color: #0A2540; }
+        
+        .status-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+        .error-box {
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 1px solid #FECACA;
+        }
+        .success-box {
+            background: #D1FAE5;
+            color: #059669;
+            border: 1px solid #A7F3D0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>طلب جلسة فحص مبدئية</h1>
+        <p class="form-subtitle">املأ البيانات أدناه لنبدأ في فحص استجابة منشأتك للقرار الذي تفكر فيه.</p>
+        
+        <div id="status-box" class="status-box"></div>
+
+        <form id="leads-form">
+            <div class="form-group">
+                <label for="name">الاسم الكامل *</label>
+                <input type="text" id="name" required placeholder="الاسم الثلاثي">
+            </div>
+
+            <div class="form-group">
+                <label for="company">اسم المنشأة *</label>
+                <input type="text" id="company" required placeholder="اسم المنشأة أو المطعم">
+            </div>
+
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني *</label>
+                <input type="email" id="email" required placeholder="example@domain.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">رقم الجوال *</label>
+                <input type="tel" id="phone" required placeholder="05xxxxxxxx">
+            </div>
+
+            <div class="form-group">
+                <label for="decision">ما هو القرار أو التغيير المصيري الذي تفكر فيه حالياً؟ *</label>
+                <textarea id="decision" required placeholder="مثال: أفكر في فتح فرع جديد، تغيير هيكل التسعير، أو تعديل الجدولة التشغيلية..."></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="submit-btn">إرسال طلب الفحص</button>
+            
+            <a href="index.html" class="back-link">← العودة إلى الصفحة الرئيسية</a>
+        </form>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+        const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+        
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const form = document.getElementById('leads-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const statusBox = document.getElementById('status-box');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            statusBox.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري الإرسال...';
+
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                company: document.getElementById('company').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                decision: document.getElementById('decision').value.trim()
+            };
+
+            try {
+                const { data, error } = await supabase
+                    .from('leads')
+                    .insert([formData]);
+
+                if (error) throw error;
+
+                statusBox.className = 'status-box success-box';
+                statusBox.textContent = '✅ تم إرسال طلبك بنجاح!';
+                statusBox.style.display = 'block';
+                form.reset();
+                
+                setTimeout(() => {
+                    window.location.href = 'thank-you.html';
+                }, 2000);
+
+            } catch (err) {
+                statusBox.className = 'status-box error-box';
+                statusBox.textContent = '❌ حدث خطأ: ' + err.message;
+                statusBox.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'إرسال طلب الفحص';
+            }
+        });
+    </script>
+
+</body>
+</html>

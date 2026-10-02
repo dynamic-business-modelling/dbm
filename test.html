@@ -2,66 +2,80 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>اختبار Supabase</title>
+    <title>اختبار</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body style="font-family: Arial; padding: 50px; text-align: center;">
+<body style="font-family: Arial; padding: 50px;">
 
-    <h2>اختبار اتصال بسيط</h2>
-    <input type="text" id="msg" placeholder="اكتب أي كلمة هنا" style="padding: 10px; width: 300px;">
-    <br><br>
-    <button onclick="sendData()" style="padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer;">إرسال</button>
+    <h2>اختبار بسيط</h2>
     
-    <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
-    <p id="debug" style="margin-top: 10px; font-size: 12px; color: gray;"></p>
+    <div id="status" style="padding: 20px; background: yellow; margin: 20px 0;">
+      ⏳ جاري التحميل...
+    </div>
+
+    <input type="text" id="msg" placeholder="اكتب كلمة" style="padding: 10px; width: 300px;">
+    <br><br>
+    <button onclick="sendData()" style="padding: 10px 20px;">إرسال</button>
+    
+    <div id="result" style="margin-top: 20px; padding: 15px; background: #f0f0f0;"></div>
 
     <script>
         const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabase;
+        
+        // اختبار 1: هل المكتبة محملة؟
+        window.onload = function() {
+            const statusDiv = document.getElementById('status');
+            
+            if (typeof window.supabase === 'undefined') {
+                statusDiv.innerHTML = '❌ مكتبة Supabase لم يتم تحميلها!';
+                statusDiv.style.background = 'red';
+                statusDiv.style.color = 'white';
+                return;
+            }
+            
+            statusDiv.innerHTML = '✅ المكتبة محملة. جاري الاتصال...';
+            statusDiv.style.background = 'lightblue';
+            
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                statusDiv.innerHTML = '✅ تم الاتصال بنجاح! جاهز للإرسال.';
+                statusDiv.style.background = 'lightgreen';
+            } catch (e) {
+                statusDiv.innerHTML = '❌ خطأ في الاتصال: ' + e.message;
+                statusDiv.style.background = 'red';
+                statusDiv.style.color = 'white';
+            }
+        };
 
         async function sendData() {
             const message = document.getElementById('msg').value;
-            const resultText = document.getElementById('result');
-            const debugText = document.getElementById('debug');
+            const resultDiv = document.getElementById('result');
             
-            resultText.innerText = "جاري الإرسال...";
-            debugText.innerText = "";
-
-            // اختبار 1: هل الاتصال يعمل؟
-            try {
-                const { data: pingData, error: pingError } = await supabase
-                    .from('test_form')
-                    .select('*')
-                    .limit(1);
-                
-                if (pingError) {
-                    debugText.innerText = "خطأ في الاتصال: " + pingError.message;
-                    resultText.innerText = " فشل الاتصال";
-                    resultText.style.color = "red";
-                    return;
-                }
-                debugText.innerText = "✅ الاتصال نجح! جاري الإرسال...";
-            } catch (e) {
-                debugText.innerText = "خطأ غير متوقع: " + e.message;
+            if (!message) {
+                resultDiv.innerHTML = '⚠️ اكتب كلمة أولاً!';
                 return;
             }
+            
+            resultDiv.innerHTML = '⏳ جاري الإرسال...';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('test_form')
+                    .insert([{ test_message: message }]);
 
-            // اختبار 2: محاولة الإدخال
-            const { data, error } = await supabase
-                .from('test_form')
-                .insert([{ test_message: message }]);
-
-            if (error) {
-                console.error("الخطأ:", error);
-                resultText.innerText = "❌ فشل: " + error.message;
-                resultText.style.color = "red";
-                debugText.innerText = "تفاصيل: " + JSON.stringify(error);
-            } else {
-                resultText.innerText = "✅ نجح! البيانات وصلت";
-                resultText.style.color = "green";
-                debugText.innerText = "البيانات المرسلة: " + JSON.stringify(data);
+                if (error) {
+                    resultDiv.innerHTML = '❌ فشل: ' + error.message;
+                    resultDiv.style.background = '#ffe0e0';
+                } else {
+                    resultDiv.innerHTML = '✅ نجح! تم إرسال: ' + message;
+                    resultDiv.style.background = '#e0ffe0';
+                }
+            } catch (e) {
+                resultDiv.innerHTML = '❌ خطأ: ' + e.message;
+                resultDiv.style.background = '#ffe0e0';
             }
         }
     </script>

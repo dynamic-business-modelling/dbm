@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فحص مكتبة Supabase</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .check-box { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .pending { color: #ffc107; }
+        .detail { font-size: 14px; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>🔍 فحص مكتبة Supabase</h1>
+
+    <!-- الفحص 1: هل المكتبة محملة؟ -->
+    <div class="check-box">
+        <div class="status pending" id="check1">⏳ جاري فحص تحميل المكتبة...</div>
+        <div class="detail" id="detail1"></div>
+    </div>
+
+    <!-- الفحص 2: هل يمكن إنشاء عميل Supabase؟ -->
+    <div class="check-box">
+        <div class="status pending" id="check2">⏳ في انتظار الفحص الأول...</div>
+        <div class="detail" id="detail2"></div>
+    </div>
+
+    <!-- الفحص 3: هل يمكن الاتصال بقاعدة البيانات؟ -->
+    <div class="check-box">
+        <div class="status pending" id="check3">⏳ في انتظار الفحص الثاني...</div>
+        <div class="detail" id="detail3"></div>
+    </div>
+
+    <!-- الفحص 4: هل يمكن إرسال البيانات؟ -->
+    <div class="check-box">
+        <div class="status pending" id="check4">⏳ في انتظار الفحص الثالث...</div>
+        <div class="detail" id="detail4"></div>
+    </div>
+
+    <script type="module">
+        // بيانات مشروعك
+        const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
+
+        // الفحص 1: تحميل المكتبة
+        try {
+            const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+            document.getElementById('check1').className = 'status success';
+            document.getElementById('check1').textContent = '✅ تم تحميل مكتبة Supabase بنجاح';
+            document.getElementById('detail1').textContent = 'المكتبة محملة من esm.sh وجاهزة للاستخدام';
+
+            // الفحص 2: إنشاء عميل Supabase
+            try {
+                const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                document.getElementById('check2').className = 'status success';
+                document.getElementById('check2').textContent = '✅ تم إنشاء عميل Supabase بنجاح';
+                document.getElementById('detail2').textContent = `URL: ${SUPABASE_URL}`;
+
+                // الفحص 3: اختبار الاتصال بقاعدة البيانات
+                try {
+                    const { data, error } = await supabase
+                        .from('test_form')
+                        .select('*')
+                        .limit(1);
+
+                    if (error) {
+                        document.getElementById('check3').className = 'status error';
+                        document.getElementById('check3').textContent = '❌ فشل الاتصال بقاعدة البيانات';
+                        document.getElementById('detail3').textContent = `الخطأ: ${error.message}`;
+                    } else {
+                        document.getElementById('check3').className = 'status success';
+                        document.getElementById('check3').textContent = '✅ الاتصال بقاعدة البيانات ناجح';
+                        document.getElementById('detail3').textContent = `تم الاتصال بنجاح، عدد السجلات: ${data.length}`;
+
+                        // الفحص 4: اختبار إرسال البيانات
+                        try {
+                            const testMessage = `اختبار تلقائي - ${new Date().toLocaleTimeString('ar-SA')}`;
+                            const { data: insertData, error: insertError } = await supabase
+                                .from('test_form')
+                                .insert([{ test_message: testMessage }]);
+
+                            if (insertError) {
+                                document.getElementById('check4').className = 'status error';
+                                document.getElementById('check4').textContent = '❌ فشل إرسال البيانات';
+                                document.getElementById('detail4').textContent = `الخطأ: ${insertError.message}`;
+                            } else {
+                                document.getElementById('check4').className = 'status success';
+                                document.getElementById('check4').textContent = '✅ تم إرسال البيانات بنجاح';
+                                document.getElementById('detail4').textContent = `تم إرسال: "${testMessage}"`;
+                            }
+                        } catch (err) {
+                            document.getElementById('check4').className = 'status error';
+                            document.getElementById('check4').textContent = '❌ خطأ في إرسال البيانات';
+                            document.getElementById('detail4').textContent = err.message;
+                        }
+                    }
+                } catch (err) {
+                    document.getElementById('check3').className = 'status error';
+                    document.getElementById('check3').textContent = '❌ خطأ في الاتصال';
+                    document.getElementById('detail3').textContent = err.message;
+                }
+            } catch (err) {
+                document.getElementById('check2').className = 'status error';
+                document.getElementById('check2').textContent = '❌ فشل إنشاء عميل Supabase';
+                document.getElementById('detail2').textContent = err.message;
+            }
+        } catch (err) {
+            document.getElementById('check1').className = 'status error';
+            document.getElementById('check1').textContent = '❌ فشل تحميل مكتبة Supabase';
+            document.getElementById('detail1').textContent = err.message;
+        }
+    </script>
+</body>
+</html>

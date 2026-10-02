@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار</title>
+    <!-- استخدام CDN بديل -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/@supabase/supabase-js/2.39.1/supabase.min.js"></script>
 </head>
 <body style="font-family: Arial; padding: 20px; text-align: center;">
 
     <h1>اختبار بسيط</h1>
     
-    <div id="log" style="background: #f0f0f0; padding: 15px; margin: 20px 0; text-align: right; font-size: 12px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></div>
+    <div id="log" style="background: #f0f0f0; padding: 15px; margin: 20px 0; text-align: right; font-size: 12px; border-radius: 5px;"></div>
 
     <input type="text" id="msg" placeholder="اكتب كلمة هنا" style="padding: 10px; width: 300px; margin: 10px;">
     <br>
@@ -24,38 +26,20 @@
 
         addLog('1️⃣ بدأت تحميل الصفحة...');
 
-        // اختبار 1: هل المكتبة موجودة؟
+        // اختبار المكتبة
         if (typeof window.supabase === 'undefined') {
             addLog('❌ مكتبة Supabase لم تُحمّل!', 'red');
-            addLog('💡 الحل: تحقق من اتصال الإنترنت أو جرب CDN مختلف', 'blue');
+            addLog(' الحل: تحقق من اتصال الإنترنت', 'blue');
         } else {
             addLog('✅ مكتبة Supabase محملة', 'green');
-            addLog('2️⃣ جاري إنشاء العميل...', 'blue');
             
             const SUPABASE_URL = 'https://fhzrzfzabpyhyaxwibbv.supabase.co';
             const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoenJ6ZnphYnB5aHlheHdpYmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzNDk2NDgsImV4cCI6MjA5NzkyNTY0OH0.vYysPXl1LuSJnhOULzCqnbdefm6Si1UspgwMSmDCnLY';
             
             try {
                 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                addLog('✅ تم إنشاء العميل بنجاح', 'green');
-                addLog('3️⃣ جاري اختبار الاتصال...', 'blue');
+                addLog('✅ تم إنشاء العميل', 'green');
                 
-                // اختبار الاتصال الفعلي
-                supabase
-                    .from('test_form')
-                    .select('*')
-                    .limit(1)
-                    .then(({ data, error }) => {
-                        if (error) {
-                            addLog(' خطأ في الاتصال: ' + error.message, 'red');
-                            addLog(' التفاصيل: ' + JSON.stringify(error), 'gray');
-                        } else {
-                            addLog('✅ الاتصال يعمل!', 'green');
-                            addLog('📊 البيانات: ' + JSON.stringify(data), 'gray');
-                        }
-                    });
-                
-                // تفعيل الزر
                 document.getElementById('sendBtn').addEventListener('click', async function() {
                     const message = document.getElementById('msg').value;
                     
@@ -64,23 +48,23 @@
                         return;
                     }
                     
-                    addLog('📤 جاري إرسال: ' + message, 'blue');
+                    addLog('📤 جاري الإرسال...', 'blue');
                     
                     const { data, error } = await supabase
                         .from('test_form')
                         .insert([{ test_message: message }]);
 
                     if (error) {
-                        addLog('❌ فشل الإرسال: ' + error.message, 'red');
-                        addLog(' التفاصيل: ' + JSON.stringify(error), 'gray');
+                        addLog(' فشل: ' + error.message, 'red');
                     } else {
                         addLog('✅ نجح! تم الإرسال', 'green');
-                        addLog('📊 البيانات: ' + JSON.stringify(data), 'gray');
+                        // تحديث الصفحة لرؤية البيانات في Supabase
+                        setTimeout(() => location.reload(), 1000);
                     }
                 });
                 
             } catch (e) {
-                addLog('❌ خطأ في إنشاء العميل: ' + e.message, 'red');
+                addLog('❌ خطأ: ' + e.message, 'red');
             }
         }
     </script>

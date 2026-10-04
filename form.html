@@ -47,7 +47,8 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
-        input, textarea {
+        /* تم إضافة select لتنسيق القوائم المنسدلة بنفس شكل الحقول */
+        input, select, textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #CBD5E1;
@@ -57,14 +58,26 @@
             color: #1A1A1A;
             background-color: #F8FAFC;
             transition: border-color 0.3s;
+            appearance: none; /* لإزالة سهم المتصفح الافتراضي */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230A2540' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 12px center;
+            background-size: 16px;
         }
-        input:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #0A2540;
             background-color: #FFFFFF;
         }
-        textarea { resize: vertical; min-height: 100px; }
+        textarea { resize: vertical; min-height: 100px; background-image: none; }
         
+        .helper-text {
+            display: block;
+            color: #64748B;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
         .submit-btn {
             width: 100%;
             background: #0A2540;
@@ -140,8 +153,48 @@
             </div>
 
             <div class="form-group">
-                <label for="decision">ما هي التغييرات التي تفكر فيها حالياً؟ *</label>
+                <label for="decision">ما هي التغييرات التي تفكر فيها حالياً للفرع؟ *</label>
                 <textarea id="decision" required placeholder="مثال: التوسع، تغيير هيكل التسعير، أو تعديل الجدولة التشغيلية..."></textarea>
+            </div>
+
+            <!-- الحقل 1: المبيعات الشهرية للفرع -->
+            <div class="form-group">
+                <label for="revenue">ما هو متوسط المبيعات الشهرية التقريبي للفرع؟ *</label>
+                <select id="revenue" required>
+                    <option value="" disabled selected>اختر النطاق التقريبي</option>
+                    <option value="under_50k">أقل من 50,000 ريال</option>
+                    <option value="50k_150k">50,000 - 150,000 ريال</option>
+                    <option value="150k_500k">150,000 - 500,000 ريال</option>
+                    <option value="over_500k">أكثر من 500,000 ريال</option>
+                    <option value="unknown">لا أعرف / غير متأكد</option>
+                </select>
+            </div>
+
+            <!-- الحقل 2: هامش الربح للفرع -->
+            <div class="form-group">
+                <label for="margin">ما هو هامش صافي الربح التقريبي للفرع؟ *</label>
+                <span class="helper-text">(مثال: إذا كانت مبيعات الفرع 100,000 ريال، ويتبقى 15,000 ريال ربح صافي بعد جميع المصاريف، فهامشك هو 15%)</span>
+                <select id="margin" required>
+                    <option value="" disabled selected>اختر النطاق التقريبي</option>
+                    <option value="under_10">أقل من 10%</option>
+                    <option value="10_to_20">10% - 20%</option>
+                    <option value="over_20">أكثر من 20%</option>
+                    <option value="unknown">لا أعرف / غير متأكد</option>
+                </select>
+            </div>
+
+            <!-- الحقل 3: الاعتماد على التوصيل للفرع -->
+            <div class="form-group">
+                <label for="delivery">ما النسبة التقريبية من مبيعات الفرع التي تأتي عبر تطبيقات التوصيل؟ *</label>
+                <select id="delivery" required>
+                    <option value="" disabled selected>اختر النسبة التقريبية</option>
+                    <option value="no_delivery">لا نعتمد على تطبيقات التوصيل</option>
+                    <option value="under_20">أقل من 20%</option>
+                    <option value="20_to_50">20% - 50%</option>
+                    <option value="50_to_70">50% - 70%</option>
+                    <option value="over_70">أكثر من 70%</option>
+                    <option value="unknown">لا أعرف / غير متأكد</option>
+                </select>
             </div>
 
             <button type="submit" id="submit-btn" class="submit-btn">إرسال طلب الفحص</button>
@@ -173,7 +226,10 @@
                 company: document.getElementById('company').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
-                decision: document.getElementById('decision').value.trim()
+                decision: document.getElementById('decision').value.trim(),
+                revenue_estimate: document.getElementById('revenue').value,
+                profit_margin: document.getElementById('margin').value,
+                delivery_reliance: document.getElementById('delivery').value
             };
 
             try {

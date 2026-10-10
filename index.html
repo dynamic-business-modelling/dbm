@@ -36,7 +36,7 @@
     h1 { 
       font-size: 36px; 
       font-weight: 800; 
-      margin-bottom: 50px; /* تم زيادة المسافة من 24px إلى 50px */
+      margin-bottom: 40px; 
       color: #0A2540;
       line-height: 1.4;
     }
@@ -44,17 +44,27 @@
       font-size: 20px;
       color: #334155;
       font-weight: 500;
-      margin-bottom: 40px;
+      margin-bottom: 15px; /* تقليص المسافة السفلية للاقتراب من العنوان الفرعي */
       line-height: 1.8;
     }
     .hero-text strong {
       color: #0A2540;
       font-weight: 700;
     }
+    /* --- التنسيق الجديد للعنوان الفرعي المميز --- */
+    .guarantee-heading {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0A2540;
+      /* المسافة من الأعلى 25px، ومن الأسفل 10px فقط ليلتصق بالنص الخاص به */
+      margin: 25px 0 10px 0; 
+      text-align: center;
+      display: block;
+    }
     .cta-container {
       text-align: center;
-      margin-top: 60px;
-      margin-bottom: 60px;
+      margin-top: 40px;
+      margin-bottom: 40px; /* تقليص المسافة السفلية */
     }
     .cta-button {
       display: inline-block;
@@ -76,14 +86,17 @@
       text-align: center;
       font-size: 14px;
       color: #64748B;
-      margin-top: 80px;
+      margin-top: 50px; /* تقليص المسافة العلوية بمقدار سطر تقريباً */
       padding-top: 30px;
       border-top: 1px solid #E2E8F0;
     }
     @media (max-width: 768px) {
       .container { padding: 50px 20px; }
-      h1 { font-size: 28px; }
-      .hero-text { font-size: 18px; }
+      h1 { font-size: 28px; margin-bottom: 30px; }
+      .hero-text { font-size: 18px; margin-bottom: 10px; }
+      .guarantee-heading { font-size: 22px; margin: 20px 0 10px 0; }
+      .cta-container { margin-top: 30px; margin-bottom: 30px; }
+      .trust-badge { margin-top: 40px; }
     }
   </style>
 </head>
@@ -93,17 +106,24 @@
     
     <!-- الواجهة الرئيسية بالنص المعتمد تماماً -->
     <header style="text-align: center; margin-top: 40px;">
-      <h1>هل يمكن إعادة تصميم استجابة منشأتك للتغيير ذاته بهدف تحسينها اقتصادياً؟</h1>
+      <h1>كيف تحرّر القيمة الاقتصادية غير المستغلة في نموذج عملك؟</h1>
       
       <div class="hero-text">
-        نتيح لك تجربة ذلك، مع مشاركة فعلية في المخاطرة:<br><br>
-        إن لم تبلغ القيمة التراكمية للفرص الاقتصادية المؤهلة والمعتمدة منك <strong>50,000 ﷼</strong> — عشرة أضعاف رسوم الخدمة البالغة <strong>5,000 ﷼</strong> — خلال مدة أقصاها 12 شهراً.<br><br>
-        فأتعابنا لن تتجاوز <strong>10%</strong> من القيمة التي تم تأهيلها واعتمادها، ويُرد لك الفرق وفق شروط التسوية.
+        اختبر أثر قراراتك — بارامترية كانت أو هيكلية — على البنية التشغيلية والاقتصادية، وشاهد أين تتحرر القيمة قبل التنفيذ.
+      </div>
+
+      <!-- العنوان الفرعي المميز للضمان -->
+      <div class="guarantee-heading">
+        لا أتعاب بلا نتيجة
+      </div>
+
+      <div class="hero-text">
+        بحد أقصى 5,000 ﷼، نعمل على تحرير قيمة اقتصادية لا تقل عن عشرة أضعاف رسوم الخدمة خلال 12 شهراً كحد أقصى، أو يُرد لك الفرق وفق بنود التسوية.
       </div>
 
       <!-- زر الإجراء (CTA) مرتبط بصفحة النموذج -->
       <div class="cta-container">
-        <a href="form.html" class="cta-button">تواصل معنا لإعادة تصميم الاستجابة </a>
+        <a href="form.html" class="cta-button">اطلب جلسة الفحص المبدئي</a>
       </div>
     </header>
 

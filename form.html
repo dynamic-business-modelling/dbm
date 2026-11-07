@@ -157,10 +157,10 @@
                 <textarea id="decision" required placeholder="مثال: التوسع، تغيير هيكل التسعير، أو تعديل الجدولة التشغيلية..."></textarea>
             </div>
 
-            <!-- الحقل 1: المبيعات الشهرية للفرع -->
+            <!-- الحقل 1: المبيعات الشهرية للفرع (اختياري) -->
             <div class="form-group">
-                <label for="revenue">ما هو متوسط المبيعات الشهرية التقريبي للفرع؟ *</label>
-                <select id="revenue" required>
+                <label for="revenue">ما هو متوسط المبيعات الشهرية التقريبي للفرع؟ (اختياري)</label>
+                <select id="revenue">
                     <option value="" disabled selected>اختر النطاق التقريبي</option>
                     <option value="under_50k">أقل من 50,000 ريال</option>
                     <option value="50k_150k">50,000 - 150,000 ريال</option>
@@ -170,11 +170,11 @@
                 </select>
             </div>
 
-            <!-- الحقل 2: هامش الربح للفرع -->
+            <!-- الحقل 2: هامش الربح للفرع (اختياري) -->
             <div class="form-group">
-                <label for="margin">ما هو هامش صافي الربح التقريبي للفرع؟ *</label>
+                <label for="margin">ما هو هامش صافي الربح التقريبي للفرع؟ (اختياري)</label>
                 <span class="helper-text">(مثال: إذا كانت مبيعات الفرع 100,000 ريال، ويتبقى 15,000 ريال ربح صافي بعد جميع المصاريف، فهامشك هو 15%)</span>
-                <select id="margin" required>
+                <select id="margin">
                     <option value="" disabled selected>اختر النطاق التقريبي</option>
                     <option value="under_10">أقل من 10%</option>
                     <option value="10_to_20">10% - 20%</option>
@@ -183,10 +183,10 @@
                 </select>
             </div>
 
-            <!-- الحقل 3: الاعتماد على التوصيل للفرع -->
+            <!-- الحقل 3: الاعتماد على التوصيل للفرع (اختياري) -->
             <div class="form-group">
-                <label for="delivery">ما النسبة التقريبية من مبيعات الفرع التي تأتي عبر تطبيقات التوصيل؟ *</label>
-                <select id="delivery" required>
+                <label for="delivery">ما النسبة التقريبية من مبيعات الفرع التي تأتي عبر تطبيقات التوصيل؟ (اختياري)</label>
+                <select id="delivery">
                     <option value="" disabled selected>اختر النسبة التقريبية</option>
                     <option value="no_delivery">لا نعتمد على تطبيقات التوصيل</option>
                     <option value="under_20">أقل من 20%</option>
@@ -232,9 +232,9 @@
                 email: document.getElementById('email').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
                 decision: document.getElementById('decision').value.trim(),
-                revenue_estimate: document.getElementById('revenue').value,
-                profit_margin: document.getElementById('margin').value,
-                delivery_reliance: document.getElementById('delivery').value
+                revenue_estimate: document.getElementById('revenue').value || null,
+                profit_margin: document.getElementById('margin').value || null,
+                delivery_reliance: document.getElementById('delivery').value || null
             };
 
             try {

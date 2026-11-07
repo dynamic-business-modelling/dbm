@@ -44,19 +44,17 @@
       font-size: 20px;
       color: #334155;
       font-weight: 500;
-      margin-bottom: 15px; /* تقليص المسافة السفلية للاقتراب من العنوان الفرعي */
+      margin-bottom: 15px;
       line-height: 1.8;
     }
     .hero-text strong {
       color: #0A2540;
       font-weight: 700;
     }
-    /* --- التنسيق الجديد للعنوان الفرعي المميز --- */
     .guarantee-heading {
       font-size: 26px;
       font-weight: 700;
       color: #0A2540;
-      /* المسافة من الأعلى 25px، ومن الأسفل 10px فقط ليلتصق بالنص الخاص به */
       margin: 25px 0 10px 0; 
       text-align: center;
       display: block;
@@ -64,7 +62,7 @@
     .cta-container {
       text-align: center;
       margin-top: 40px;
-      margin-bottom: 40px; /* تقليص المسافة السفلية */
+      margin-bottom: 40px;
     }
     .cta-button {
       display: inline-block;
@@ -86,10 +84,23 @@
       text-align: center;
       font-size: 14px;
       color: #64748B;
-      margin-top: 50px; /* تقليص المسافة العلوية بمقدار سطر تقريباً */
+      margin-top: 50px;
       padding-top: 30px;
       border-top: 1px solid #E2E8F0;
     }
+    /* --- تنسيق رابط سياسة الخصوصية الجديد --- */
+    .privacy-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #64748B;
+      text-decoration: underline;
+      font-size: 13px;
+      transition: color 0.3s ease;
+    }
+    .privacy-link:hover {
+      color: #0A2540;
+    }
+    
     @media (max-width: 768px) {
       .container { padding: 50px 20px; }
       h1 { font-size: 28px; margin-bottom: 30px; }
@@ -127,9 +138,11 @@
       </div>
     </header>
 
-    <!-- شارة الثقة -->
+    <!-- شارة الثقة ورابط الخصوصية -->
     <div class="trust-badge">
       ممارس معتمد في تحليل وتخطيط الأعمال | مرشد أعمال مسجل في "منشآت"
+      <br>
+      <a href="privacy.html" class="privacy-link">سياسة الخصوصية</a>
     </div>
 
   </div>
